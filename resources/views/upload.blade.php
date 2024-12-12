@@ -5,12 +5,12 @@
 <div class="container my-5">
     <!-- Header Section -->
     <div class="text-center mb-4">
-        <h1 class="fw-bold text-success">S3 Bucket File Upload</h1>
-        <p class="text-muted">Easily upload and manage your files</p>
+        <h1 class="fw-bold text-success">SNGK Online Fashion Store</h1>
+        <h3 class="text-muted">Elevate Your Life Style</h3>
     </div>
 
     <!-- Upload Form -->
-    <div class="card shadow-sm border mb-5" style="border-color: #ddd;">
+    <!-- <div class="card shadow-sm border mb-5" style="border-color: #ddd;">
         <div class="card-body p-4" style="background-color: #e0e0e0;">
             <h4 class="card-title mb-4 text-dark" style="font-family: 'Roboto', sans-serif;">
                 <i class="fa-solid fa-cloud-upload-alt me-2"></i>Upload a File
@@ -26,11 +26,79 @@
                 </button>
             </form>
         </div>
+    </div> -->
+
+    <!-- Button to Trigger Modal -->
+<div class="text-center my-3">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadModal">
+        <i class="fa-solid fa-plus me-2"></i>Add New Items
+    </button>
+</div>
+
+<!-- Modal for Upload Form -->
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="uploadModalLabel">
+                    <i class="fa-solid fa-cloud-upload-alt me-2"></i>Upload a File
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted">Select a file to upload. It will be stored in your S3 bucket.</p>
+                <form action="{{ url('/store') }}" method="POST" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                    
+                    <!-- File Upload Input -->
+                    <div class="mb-3">
+                        <label for="file" class="form-label fw-semibold text-dark">Select File</label>
+                        <input type="file" class="form-control" id="file" name="file">
+                    </div>
+
+                    <!-- Input Field 1 -->
+                    <div class="mb-3">
+                        <label for="input1" class="form-label fw-semibold text-dark">Dress Type</label>
+                        <input type="text" class="form-control" id="input1" name="type" placeholder="Enter a dress type">
+                    </div>
+
+                    <!-- Input Field 2 -->
+                    <div class="mb-3">
+                        <label for="input2" class="form-label fw-semibold text-dark">Price (LKR)</label>
+                        <input type="text" class="form-control" id="input2" name="price" placeholder="Enter the Price">
+                    </div>
+
+                    <!-- Input Field 3 -->
+                    <div class="mb-3">
+                        <label for="input3" class="form-label fw-semibold text-dark">Available Sizes</label>
+                        <input type="text" class="form-control" id="input3" name="size" placeholder="Enter available sizes">
+                    </div>
+
+                    <!-- Input Field 3 -->
+                    <div class="mb-3">
+                        <label for="input3" class="form-label fw-semibold text-dark">Material</label>
+                        <input type="text" class="form-control" id="input3" name="material" placeholder="Enter material">
+                    </div>
+
+                    <!-- Input Field 3 -->
+                    <div class="mb-3">
+                        <label for="input3" class="form-label fw-semibold text-dark">Quantity</label>
+                        <input type="text" class="form-control" id="input3" name="quantity" placeholder="Enter quantity">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn w-100" style="background-color: #2e8b57; color: white;">
+                        <i class="fa-solid fa-upload me-2"></i>Upload
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 
     <!-- File Cards with Static Preview Image -->
     <div>
-        <h4 class="text-dark mb-4"><i class="fa-solid fa-folder-open me-2"></i>Your Files</h4>
+        <h4 class="text-dark mb-4">New Arrivals</h4>
         @if (count($files) > 0)
             <div class="row g-3">
                 @foreach ($files as $file)
@@ -40,10 +108,15 @@
                             <div class="card-body p-3">
                                 <!-- Static Image Preview -->
                                 <div class="mb-3 text-center">
-                                    <img src="https://images.pexels.com/photos/458669/pexels-photo-458669.jpeg" 
+                                    <!-- <img src="https://images.pexels.com/photos/458669/pexels-photo-458669.jpeg" 
                                          alt="Preview Image" 
                                          class="img-fluid rounded" 
-                                         style="max-height: 150px;">
+                                         style="max-height: 150px;"> -->
+
+                                         <img src="{{ $file['url'] }}{{ $file['name'] }}" 
+                                                alt="{{ $file['name'] }}" 
+                                                class="img-fluid rounded" 
+                                                style="max-height: 150px;">
                                 </div>
 
                                 <!-- File Name with Left Alignment and Font Change -->
@@ -79,6 +152,7 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
 <style>
     /* Card Hover Effect */
