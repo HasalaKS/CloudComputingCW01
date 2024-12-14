@@ -12,13 +12,21 @@ class UploadController extends Controller
     {
         $files = Storage::disk('s3')->files('files');
 
+
         $data = [];
         foreach($files as $file) {
+            // dump($file);
+            $dressDetails = Dress::where('file_path', basename($file))->first();
             $data[] = [
                 'url' => 'https://gayaniawsbucket.s3.us-east-2.amazonaws.com/files/',
                 'name' => basename($file),
                 'downloadUrl' => url('/download/'.base64_encode($file)),
                 'removeUrl' => url('/remove/'.base64_encode($file)),
+                'id' => $dressDetails['id'],
+                'type' => $dressDetails['type'],
+                'price' => $dressDetails['price'],
+                'material' => $dressDetails['material'],
+                'quantity' => $dressDetails['quantity'],
             ];
         }
 
@@ -67,7 +75,7 @@ class UploadController extends Controller
             'size' => $request->input('size'),
             'material' => $request->input('material'),
             'quantity' => $request->input('quantity'),
-            'file_path' => $filePath,
+            'file_path' => $name,
         ]);
         return back()->withSuccess('File uploaded successfully');
     }

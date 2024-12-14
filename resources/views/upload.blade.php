@@ -5,7 +5,7 @@
 <div class="container my-5">
     <!-- Header Section -->
     <div class="text-center mb-4">
-        <h1 class="fw-bold text-success">SNGK Online Fashion Store</h1>
+    <h1 style="font-size: 60px; font-weight: bold; color: green;">Online Fashion Store</h1>
         <h3 class="text-muted">Elevate Your Life Style</h3>
     </div>
 
@@ -98,56 +98,61 @@
 
     <!-- File Cards with Static Preview Image -->
     <div>
-        <h4 class="text-dark mb-4">New Arrivals</h4>
-        @if (count($files) > 0)
-            <div class="row g-3">
-                @foreach ($files as $file)
-                    <!-- Change col-md-4 to col-md-3 for 4 cards per row -->
-                    <div class="col-md-3">
-                        <div class="card border shadow-sm">
-                            <div class="card-body p-3">
-                                <!-- Static Image Preview -->
-                                <div class="mb-3 text-center">
-                                    <!-- <img src="https://images.pexels.com/photos/458669/pexels-photo-458669.jpeg" 
-                                         alt="Preview Image" 
-                                         class="img-fluid rounded" 
-                                         style="max-height: 150px;"> -->
+    <h4 class="text-dark mb-4">New Arrivals</h4>
+    @if (count($files) > 0)
+        <div class="row g-3">
+            @foreach ($files as $file)
+                <div class="col-md-3">
+                <div class="card border shadow-sm h-100">
+    <div class="card-body d-flex flex-column p-3">
+        <!-- Static Image Preview -->
+        <div class="mb-3 text-center image-container">
+            <img src="{{ $file['url'] }}{{ $file['name'] }}" 
+                 alt="{{ $file['name'] }}" 
+                 class="img-fluid rounded image-hover" 
+                 style="max-height: 170px;">
+        </div>
 
-                                         <img src="{{ $file['url'] }}{{ $file['name'] }}" 
-                                                alt="{{ $file['name'] }}" 
-                                                class="img-fluid rounded" 
-                                                style="max-height: 150px;">
-                                </div>
+        <!-- File Details -->
+        <h5 class="card-title text-dark" 
+            style="font-family: 'Arial', sans-serif; text-align: center; font-weight: bold;">
+            {{ $file['type'] }}
+        </h5>
+        <br>
+        <h6 class="card-title text-dark" style="font-family: 'Arial', sans-serif; text-align: left;">
+            {{ 'Price : ' }} {{ $file['price'] }}
+        </h6>
+        <h6 class="card-title text-dark" style="font-family: 'Arial', sans-serif; text-align: left;">
+            {{ 'Material : ' }} {{ $file['material'] }}
+        </h6>
+        <h6 class="card-title text-dark" style="font-family: 'Arial', sans-serif; text-align: left;">
+            {{ 'Quantity : ' }} {{ $file['quantity'] }}
+        </h6>
 
-                                <!-- File Name with Left Alignment and Font Change -->
-                                <h5 class="card-title text-dark" style="font-family: 'Arial', sans-serif; text-align: left;">
-                                    {{ $file['name'] }}
-                                </h5>
-
-                                <!-- Action Buttons -->
-                                <div class="d-flex justify-content-start gap-2 mt-3">
-                                    <!-- Download Button -->
-                                    <a href="{{ url($file['downloadUrl']) }}" class="btn btn-outline-primary btn-sm">
-                                        <i class="fa-solid fa-download"></i> Download
-                                    </a>
-                                    <!-- Delete Button -->
-                                    <form action="{{ url($file['removeUrl']) }}" method="POST">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-                                        <button type="submit" class="btn btn-outline-danger btn-sm">
-                                            <i class="fa-solid fa-trash"></i> Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        @else
-            <p class="text-center text-muted">No files uploaded yet.</p>
-        @endif
+        <!-- Action Buttons at Bottom -->
+        <div class="mt-auto d-flex justify-content-start gap-2">
+            <a href="{{ url($file['downloadUrl']) }}" class="btn btn-outline-primary btn-sm">
+                <i class="fa-solid fa-download"></i> Download
+            </a>
+            <form action="{{ url($file['removeUrl']) }}" method="POST">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+                <button type="submit" class="btn btn-outline-danger btn-sm">
+                    <i class="fa-solid fa-trash"></i> Delete
+                </button>
+            </form>
+        </div>
     </div>
+</div>
+
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p class="text-center text-muted">No files uploaded yet.</p>
+    @endif
+</div>
+
 </div>
 
 <!-- Bootstrap JS -->
@@ -156,41 +161,69 @@
 
 <style>
     /* Card Hover Effect */
-    .card:hover {
+    /* .card:hover {
         transform: scale(1.03);
         transition: all 0.3s ease-in-out;
+    } */
+
+    /* Fixed size for card images with full image display */
+    .img-fluid {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        background-color:rgb(255, 255, 255);
     }
 
-    /* Image Preview */
-    .img-fluid {
-        object-fit: cover;
+    /* Add fixed size to cards */
+    .card.border.shadow-sm {
+        width: 300px; /* Fixed width for the card */
+        height: 450px; /* Fixed height for the card */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
     }
 
     /* Reduce button width and align them to the left */
     .btn {
-        width: auto; /* Set the width to auto for buttons */
-        height: 38px; /* Ensure the height is consistent */
+        width: auto;
+        height: 38px;
     }
 
     .d-flex {
         display: flex;
-        justify-content: flex-start; /* Align buttons to the left */
+        justify-content: flex-start;
     }
 
     .gap-2 {
-        gap: 10px; /* Add spacing between buttons */
-    }
-
-    /* Style for cards: No background color, small border and shadow */
-    .card {
-        background-color: transparent; /* Remove background color */
-        border: 1px solid #ddd; /* Add light border */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add small shadow */
+        gap: 10px;
     }
 
     /* Custom font for file name */
     .card-title {
         font-family: 'Arial', sans-serif;
-        font-size: 16px;
+        /* font-size: 16px; */
+    }
+
+    /* Card Hover Effect */
+    .card:hover {
+        transform: scale(1.03);
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Image container to handle hover effect */
+    .image-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Hover effect to enlarge the image */
+    .image-hover {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .image-container:hover .image-hover {
+        transform: scale(1.5); /* Adjust scale for desired zoom level */
     }
 </style>
+
