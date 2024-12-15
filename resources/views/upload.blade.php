@@ -4,8 +4,9 @@
 
 <div class="container my-5">
     <!-- Header Section -->
+     
     <div class="text-center mb-4">
-    <h1 style="font-size: 60px; font-weight: bold; color: green;">Online Fashion Store</h1>
+    <h1 style="font-size: 60px; font-weight: bold; color: #d63384;">Online Fashion Store</h1>
         <h3 class="text-muted">Elevate Your Life Style</h3>
     </div>
 
@@ -33,6 +34,57 @@
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadModal">
         <i class="fa-solid fa-plus me-2"></i>Add New Items
     </button>
+    <!-- Generate Report Modal -->
+     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#generateReportModal">
+        <i class="fa-solid fa-file-csv me-2"></i>Generate Report
+    </button>
+<div class="modal fade" id="generateReportModal" tabindex="-1" aria-labelledby="generateReportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="generateReportModalLabel">Generate Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form action="{{ url('/report/download') }}" method="GET">
+                    <!-- CSRF Token -->
+                    {{ csrf_field() }}
+
+                    <!-- Date Range Selection in One Row -->
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <label for="start_date" class="form-label fw-semibold text-dark">Start Date</label>
+                            <input type="date" class="form-control" id="start_date" name="start_date" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="end_date" class="form-label fw-semibold text-dark">End Date</label>
+                            <input type="date" class="form-control" id="end_date" name="end_date" required>
+                        </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fa-solid fa-download me-2"></i>Generate CSV
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@if (session('info'))
+<br>
+<br>
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ session('info') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
 </div>
 
 <!-- Modal for Upload Form -->
@@ -95,6 +147,8 @@
         </div>
     </div>
 </div>
+
+
 
     <!-- File Cards with Static Preview Image -->
     <div>
