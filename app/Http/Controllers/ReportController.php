@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 use App\Models\Dress;
 
@@ -58,5 +59,29 @@ class ReportController extends Controller
 
         // Return the CSV file as a response
         return Response::stream($callback, 200, $headers);
+    }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'file' => 'required|max:2048'
+        ]);
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $name = time() . $file->getClientOriginalName();
+            $filePath = 'files/' . $name;
+            Storage::disk('s3')->put($filePath, file_get_contents($file));
+        }
+
+        Dress::create([
+            'type' => $request->input('type'),
+            'price' => $request->input('price'),
+            'size' => $request->input('size'),
+            'material' => $request->input('material'),
+            'quantity' => $request->input('quantity'),
+            'file_path' => $name,
+        ]);
+        return back()->withSuccess('File uploaded successfully');
     }
 }

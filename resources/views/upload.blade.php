@@ -4,7 +4,7 @@
 
 <div class="container my-5">
     <!-- Header Section -->
-     
+
     <div class="text-center mb-4">
     <h1 style="font-size: 60px; font-weight: bold; color: #d63384;">Online Fashion Store</h1>
         <h3 class="text-muted">Elevate Your Life Style</h3>
@@ -99,9 +99,9 @@
             </div>
             <div class="modal-body">
                 <p class="text-muted">Select a file to upload. It will be stored in your S3 bucket.</p>
-                <form action="{{ url('/store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url('/upload/store') }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    
+
                     <!-- File Upload Input -->
                     <div class="mb-3">
                         <label for="file" class="form-label fw-semibold text-dark">Select File</label>
@@ -161,14 +161,14 @@
     <div class="card-body d-flex flex-column p-3">
         <!-- Static Image Preview -->
         <div class="mb-3 text-center image-container">
-            <img src="{{ $file['url'] }}{{ $file['name'] }}" 
-                 alt="{{ $file['name'] }}" 
-                 class="img-fluid rounded image-hover" 
+            <img src="{{ $file['url'] }}{{ $file['name'] }}"
+                 alt="{{ $file['name'] }}"
+                 class="img-fluid rounded image-hover"
                  style="max-height: 170px;">
         </div>
 
         <!-- File Details -->
-        <h5 class="card-title text-dark" 
+        <h5 class="card-title text-dark"
             style="font-family: 'Arial', sans-serif; text-align: center; font-weight: bold;">
             {{ $file['type'] }}
         </h5>
